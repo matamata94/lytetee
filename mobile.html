@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Lytetee — Mobile</title>
+    <meta name="description" content="라이티. 브라 없이 입는 오버핏 티셔츠.">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://code.iconify.design/iconify-icon/2.3.0/iconify-icon.min.js"></script>
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --cobalt: #4A7FD4;
+            --cobalt-glow: rgba(74, 127, 212, 0.15);
+            --pastel: #B8D4E8;
+            --ice: #E8F1F8;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--bg);
+            color: #fff;
+            font-family: 'Pretendard', system-ui, sans-serif;
+            overflow-x: hidden;
+            line-height: 1.8;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Outfit', 'Pretendard', system-ui, sans-serif;
+            line-height: 1.3;
+            word-break: keep-all;
+        }
+
+        /* ---- HEADER ---- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background: rgba(10, 10, 10, 0.7);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .logo {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 1.25rem;
+            letter-spacing: -0.02em;
+        }
+
+        .header-btn {
+            background: #fff;
+            color: #000;
+            padding: 8px 20px;
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            border: none;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .header-btn:active { transform: scale(0.95); }
+
+        /* ---- HERO ---- */
+        #hero {
+            min-height: 100dvh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #canvas-container {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+        }
+
+        #canvas-container canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 0 24px;
+            pointer-events: none;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 100px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            font-size: 10px;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--pastel);
+            margin-bottom: 24px;
+            font-weight: 600;
+        }
+
+        .hero-badge .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--cobalt);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .hero-title {
+            font-size: clamp(2.8rem, 12vw, 5.5rem);
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            line-height: 1.05;
+            margin-bottom: 20px;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #fff, #6B9BE8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-desc {
+            color: rgba(255,255,255,0.4);
+            font-size: 14px;
+            max-width: 320px;
+            margin: 0 auto 32px;
+            line-height: 1.9;
+        }
+
+        .hero-cta {
+            display: inline-block;
+            background: #fff;
+            color: #000;
+            padding: 16px 40px;
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.2em;
+            text-decoration: none;
+            pointer-events: auto;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .hero-cta:active { transform: scale(0.95); }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            opacity: 0.25;
+            z-index: 2;
+        }
+        .scroll-hint span {
+            font-size: 9px;
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+        }
+        .scroll-hint .line {
+            width: 1px;
+            height: 30px;
+            background: linear-gradient(to bottom, #fff, transparent);
+        }
+
+        /* ---- SECTIONS ---- */
+        .section {
+            padding: 80px 20px;
+        }
+
+        .section-label {
+            font-size: 10px;
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            color: var(--cobalt);
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: clamp(1.75rem, 7vw, 2.5rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.35;
+            margin-bottom: 16px;
+        }
+
+        .section-desc {
+            color: rgba(255,255,255,0.4);
+            font-size: 14px;
+            line-height: 1.9;
+            max-width: 400px;
+        }
+
+        /* ---- METRICS ---- */
+        .metrics {
+            padding: 40px 20px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            background: #080808;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            text-align: center;
+        }
+
+        .metric-num {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .metric-label {
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.25);
+            margin-top: 4px;
+        }
+
+        /* ---- PRODUCT IMAGE ---- */
+        .product-showcase {
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.08);
+            margin-bottom: 24px;
+        }
+
+        .product-showcase img {
+            width: 100%;
+            height: 420px;
+            object-fit: cover;
+            object-position: top;
+            display: block;
+        }
+
+        .product-showcase .overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(10,10,10,0.9) 0%, transparent 50%);
+        }
+
+        .product-showcase .info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 24px;
+        }
+
+        .badge-bestseller {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            background: rgba(74, 127, 212, 0.3);
+            color: var(--pastel);
+            margin-bottom: 10px;
+        }
+
+        .product-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .product-price {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .product-desc {
+            color: rgba(255,255,255,0.35);
+            font-size: 13px;
+            line-height: 1.8;
+            margin: 8px 0 16px;
+        }
+
+        .btn-buy {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #fff;
+            color: #000;
+            padding: 12px 28px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-buy:active { transform: scale(0.95); }
+
+        /* ---- SMALL PRODUCT ---- */
+        .product-small {
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: #111;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 12px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .product-small:active { transform: scale(0.98); }
+
+        .product-small img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            border-radius: 12px;
+            background: #0c0c0c;
+        }
+
+        .product-small .name {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .product-small .price {
+            font-size: 13px;
+            color: rgba(255,255,255,0.4);
+        }
+
+        /* ---- FEATURE CARDS ---- */
+        .feature-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 24px;
+            padding: 32px 24px;
+            margin-bottom: 12px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .feature-num {
+            font-family: 'Outfit', monospace;
+            font-size: 12px;
+            color: var(--cobalt);
+            letter-spacing: 0.1em;
+            margin-bottom: 20px;
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: rgba(255,255,255,0.04);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .feature-desc {
+            color: rgba(255,255,255,0.35);
+            font-size: 13px;
+            line-height: 1.9;
+        }
+
+        /* ---- LOOKBOOK ---- */
+        .lookbook-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .lookbook-grid .item {
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .lookbook-grid .item:nth-child(even) {
+            margin-top: 24px;
+        }
+
+        .lookbook-grid img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* ---- DETAIL SECTION ---- */
+        .detail-img {
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.08);
+            margin-bottom: 32px;
+            position: relative;
+        }
+
+        .detail-img img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .detail-img .label {
+            position: absolute;
+            bottom: 16px;
+            left: 16px;
+            font-size: 9px;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.3);
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .detail-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: rgba(255,255,255,0.04);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .detail-item h4 {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .detail-item p {
+            color: rgba(255,255,255,0.35);
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        /* ---- REVIEW CARDS ---- */
+        .review-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 24px;
+            padding: 28px 24px;
+            margin-bottom: 12px;
+        }
+
+        .review-stars {
+            display: flex;
+            gap: 2px;
+            margin-bottom: 14px;
+        }
+
+        .review-text {
+            color: rgba(255,255,255,0.45);
+            font-size: 13px;
+            line-height: 1.9;
+            margin-bottom: 18px;
+        }
+
+        .review-author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .review-author img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+        }
+
+        .review-author .name {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .review-author .role {
+            font-size: 11px;
+            color: rgba(255,255,255,0.2);
+        }
+
+        /* ---- CTA ---- */
+        .cta-section {
+            padding: 80px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: var(--cobalt-glow);
+            filter: blur(80px);
+        }
+
+        .cta-btn {
+            display: inline-block;
+            background: #fff;
+            color: #000;
+            padding: 18px 44px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.2em;
+            text-decoration: none;
+            position: relative;
+            z-index: 2;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .cta-btn:active { transform: scale(0.95); }
+
+        .trust-badges {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 24px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .trust-badges span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            color: rgba(255,255,255,0.3);
+        }
+
+        /* ---- FOOTER ---- */
+        footer {
+            padding: 48px 20px 32px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            background: #050505;
+        }
+
+        .footer-logo {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+        }
+
+        .footer-desc {
+            color: rgba(255,255,255,0.2);
+            font-size: 13px;
+            line-height: 1.8;
+            margin-bottom: 24px;
+            max-width: 280px;
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 32px;
+        }
+
+        .footer-socials a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.04);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .footer-socials a:active { background: var(--cobalt); }
+
+        .footer-links {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .footer-links h5 {
+            font-size: 10px;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--cobalt);
+            font-weight: 700;
+            margin-bottom: 14px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.3);
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .footer-bottom {
+            padding-top: 24px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            font-size: 10px;
+            color: rgba(255,255,255,0.15);
+            letter-spacing: 0.05em;
+            line-height: 1.8;
+        }
+
+        /* ---- PERKS BAR ---- */
+        .perks-bar {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 0 20px 12px;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+        .perks-bar::-webkit-scrollbar { display: none; }
+
+        .perk-chip {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 16px;
+            border-radius: 16px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .perk-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            background: rgba(74,127,212,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ---- COLORS ---- */
+        .color-row {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 28px;
+        }
+
+        .swatch {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.1);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .swatch.active {
+            border-color: var(--cobalt);
+            box-shadow: 0 0 0 3px var(--bg), 0 0 0 5px rgba(74,127,212,0.4);
+        }
+
+        /* ---- REVEAL ANIMATION ---- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Smooth scroll */
+        html { scroll-behavior: smooth; }
+
+        /* Noise */
+        .noise {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            pointer-events: none;
+            opacity: 0.02;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+    </style>
+</head>
+<body>
+
+<div class="noise"></div>
+
+<!-- HEADER -->
+<header>
+    <div class="logo">LYTETEE</div>
+    <a href="#shop"><button class="header-btn">SHOP</button></a>
+</header>
+
+<!-- HERO + 3D -->
+<section id="hero">
+    <div id="canvas-container"></div>
+    <div class="hero-content">
+        <div class="hero-badge">
+            <span class="dot"></span>
+            No-Bra Wear
+        </div>
+        <h1 class="hero-title">
+            JUST A TEE.<br><span class="gradient-text">NOTHING ELSE.</span>
+        </h1>
+        <p class="hero-desc">
+            브라 없이 입는 오버핏 티셔츠.<br>비침 없이, 조임 없이, 나답게.
+        </p>
+        <a href="#collection" class="hero-cta">VIEW COLLECTION</a>
+    </div>
+    <div class="scroll-hint">
+        <span>Scroll</span>
+        <div class="line"></div>
+    </div>
+</section>
+
+<!-- METRICS -->
+<div class="metrics">
+    <div class="metrics-grid reveal">
+        <div>
+            <div class="metric-num">18,430<span style="color:var(--cobalt)">+</span></div>
+            <div class="metric-label">Sold</div>
+        </div>
+        <div>
+            <div class="metric-num">4.91</div>
+            <div class="metric-label">Rating</div>
+        </div>
+        <div>
+            <div class="metric-num">97.6<span style="color:var(--cobalt)">%</span></div>
+            <div class="metric-label">Repurchase</div>
+        </div>
+        <div>
+            <div class="metric-num">8</div>
+            <div class="metric-label">Colors</div>
+        </div>
+    </div>
+</div>
+
+<!-- COLLECTION -->
+<section id="collection" class="section">
+    <div class="reveal">
+        <div class="section-label">Collection</div>
+        <div class="section-title">하나면 충분하지만<br>전부 갖고 싶은 티셔츠</div>
+    </div>
+
+    <div class="color-row reveal">
+        <span class="swatch active" style="background:#0a0a0a"></span>
+        <span class="swatch" style="background:#1a2a4a"></span>
+        <span class="swatch" style="background:#B0B0B0"></span>
+        <span class="swatch" style="background:#fff"></span>
+        <span class="swatch" style="background:#4A7FD4"></span>
+        <span class="swatch" style="background:#B8D4E8"></span>
+        <span class="swatch" style="background:#D4CFC5"></span>
+        <span class="swatch" style="background:#2C2C2C"></span>
+    </div>
+
+    <div class="reveal">
+        <div class="product-showcase">
+            <img src="images/블랙_전신01_최종3.png" alt="시그니처 오버핏 - 블랙" loading="lazy" decoding="async">
+            <div class="overlay"></div>
+            <div class="info">
+                <span class="badge-bestseller">Best Seller</span>
+                <div class="product-name">시그니처 오버핏 티</div>
+                <div class="product-desc">이중 레이어, 내장 서포트, 릴렉스 숄더. 라이티의 모든 기술.</div>
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <span class="product-price">29,800원</span>
+                    <a href="#" class="btn-buy">
+                        바로 구매
+                        <iconify-icon icon="solar:arrow-right-linear" width="14"></iconify-icon>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="reveal">
+        <div class="product-small">
+            <img src="images/네이비 후드티_최종2.png" alt="오버핏 후드 네이비" loading="lazy" decoding="async">
+            <div>
+                <div class="name">오버핏 후드 — Navy</div>
+                <div class="price">39,800원</div>
+            </div>
+        </div>
+        <div class="product-small">
+            <img src="images/블랙 후드티.png" alt="오버핏 후드 블랙" loading="lazy" decoding="async">
+            <div>
+                <div class="name">오버핏 후드 — Black</div>
+                <div class="price">39,800원</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Perks horizontal scroll -->
+    <div class="reveal perks-bar" style="padding-top:16px;">
+        <div class="perk-chip">
+            <div class="perk-icon"><iconify-icon icon="solar:delivery-linear" width="16" style="color:var(--cobalt)"></iconify-icon></div>
+            무료 배송
+        </div>
+        <div class="perk-chip">
+            <div class="perk-icon"><iconify-icon icon="solar:refresh-linear" width="16" style="color:var(--cobalt)"></iconify-icon></div>
+            14일 무료 반품
+        </div>
+        <div class="perk-chip">
+            <div class="perk-icon"><iconify-icon icon="solar:tag-price-linear" width="16" style="color:var(--cobalt)"></iconify-icon></div>
+            첫 구매 10% 할인
+        </div>
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" style="background:#080808; border-top:1px solid rgba(255,255,255,0.05); border-bottom:1px solid rgba(255,255,255,0.05);">
+    <div class="reveal">
+        <div class="section-label">Why Lytetee</div>
+        <div class="section-title">그냥 티셔츠가 아닌<br>네 가지 이유</div>
+    </div>
+
+    <div class="reveal feature-card">
+        <div class="feature-num">/ 01</div>
+        <div class="feature-icon"><iconify-icon icon="solar:shield-check-linear" width="22" style="color:var(--cobalt)"></iconify-icon></div>
+        <div class="feature-title">이중 레이어 비침 차단</div>
+        <div class="feature-desc">겉감과 안감의 이중 구조로 화이트에서도 속옷 라인이 전혀 비치지 않습니다.</div>
+    </div>
+
+    <div class="reveal feature-card">
+        <div class="feature-num">/ 02</div>
+        <div class="feature-icon"><iconify-icon icon="solar:ruler-angular-linear" width="22" style="color:var(--cobalt)"></iconify-icon></div>
+        <div class="feature-title">체형별 맞춤 패턴</div>
+        <div class="feature-desc">44부터 110까지, 7가지 사이즈에 각각 다른 패턴으로 가장 아름다운 실루엣을 구현합니다.</div>
+    </div>
+
+    <div class="reveal feature-card">
+        <div class="feature-num">/ 03</div>
+        <div class="feature-icon"><iconify-icon icon="solar:washing-machine-linear" width="22" style="color:var(--cobalt)"></iconify-icon></div>
+        <div class="feature-title">50회 세탁 내구성</div>
+        <div class="feature-desc">프리미엄 코마사 원단과 강화 봉제로 50회 세탁 후에도 넥라인 늘어남이 없습니다.</div>
+    </div>
+
+    <div class="reveal feature-card">
+        <div class="feature-num">/ 04</div>
+        <div class="feature-icon"><iconify-icon icon="solar:heart-pulse-linear" width="22" style="color:var(--cobalt)"></iconify-icon></div>
+        <div class="feature-title">내장 소프트 서포트</div>
+        <div class="feature-desc">탈착 가능한 울트라씬 브라패드가 내장되어 브라 없이도 자연스러운 형태감을 유지합니다.</div>
+    </div>
+</section>
+
+<!-- DETAIL -->
+<section class="section">
+    <div class="reveal">
+        <div class="section-label">Craftsmanship</div>
+        <div class="section-title">보이지 않는 곳까지<br>다듬어진 설계</div>
+        <p class="section-desc" style="margin-bottom:32px;">
+            어깨 드롭, 품, 기장까지 수십 번의 샘플링을 거쳐 모든 체형에서 자연스럽게 떨어지는 실루엣을 찾았습니다.
+        </p>
+    </div>
+
+    <div class="reveal detail-img">
+        <img src="images/확대컷01.png" alt="넥라인 디테일" loading="lazy" decoding="async">
+        <div class="label">Detail Close-up</div>
+    </div>
+
+    <div class="reveal">
+        <div class="detail-item">
+            <div class="detail-icon"><iconify-icon icon="solar:t-shirt-linear" width="22" style="color:var(--cobalt)"></iconify-icon></div>
+            <div>
+                <h4>프리미엄 코마사 원단</h4>
+                <p>면보다 2.3배 부드러운 고밀도 코마사. 매일 입어도 처음 그 촉감 그대로.</p>
+            </div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-icon"><iconify-icon icon="solar:eye-closed-linear" width="22" style="color:var(--cobalt)"></iconify-icon></div>
+            <div>
+                <h4>시크릿 인너 패널</h4>
+                <p>가슴 부분 이중 레이어와 탈착 패드로 노브라에서도 자연스러운 실루엣 완성.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- LOOKBOOK -->
+<section class="section" style="background:#080808; border-top:1px solid rgba(255,255,255,0.05); border-bottom:1px solid rgba(255,255,255,0.05);">
+    <div class="reveal" style="text-align:center; margin-bottom:8px;">
+        <div class="section-label">Lookbook</div>
+        <div class="section-title">모든 체형에서<br>아름답게</div>
+    </div>
+
+    <div class="reveal lookbook-grid">
+        <div class="item"><img src="images/전신01_최종8.png" alt="그레이 후드 캡" loading="lazy" decoding="async"></div>
+        <div class="item"><img src="images/그레이_전신02_최종.png" alt="그레이 크로스" loading="lazy" decoding="async"></div>
+        <div class="item"><img src="images/전신03_최종_끈추가_컬러보정.png" alt="네이비 전신" loading="lazy" decoding="async"></div>
+        <div class="item"><img src="images/상반신04_최종.png" alt="뒷모습" loading="lazy" decoding="async"></div>
+    </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews" class="section">
+    <div class="reveal">
+        <div class="section-label">Reviews</div>
+        <div class="section-title">한 번 입으면<br>다시 돌아오는 이유</div>
+    </div>
+
+    <div class="reveal review-card">
+        <div class="review-stars">
+            <iconify-icon icon="solar:star-bold" width="13" style="color:var(--cobalt)"></iconify-icon>
+            <iconify-icon icon="solar:star-bold" width="13" style="color:var(--cobalt)"></iconify-icon>
+            <iconify-icon icon="solar:star-bold" width="13" style="color:var(--cobalt)"></iconify-icon>
+            <iconify-icon icon="solar:star-bold" width="13" style="color:var(--cobalt)"></iconify-icon>
+            <iconify-icon icon="solar:star-bold" width="13" style="color:var(--cobalt)"></iconify-icon>
+        </div>
+        <div class="review-text">"170cm 77kg인데 라이티가 유일하게 달라붙지 않아요. 코발트 3장, 블랙 2장 샀는데 화이트도 추가 예정. 진짜 안 비쳐서 놀랐어요."</div>
+        <div class="review-author">
+            <img src="https://i.pravatar.cc/150?u=lytetee-r1" alt="정수빈" loading="lazy">
+            <div>
+                <div class="name">정수빈</div>
+                <div class="role">그래픽 디자이너, 29세</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="reveal review-card">
+        <div class="review-stars">
+            <iconify-icon icon="solar:star-bold" width="13" style="color:var(--cobalt)"></iconify-icon>
+            <iconify-icon icon="solar:star-bold" width="13" style="color:var(--cobalt)"></iconify-icon>
+            <iconify-icon icon="solar:star-bold" width="13" style="color:var(--cobalt)"></iconify-icon>
+            <iconify-icon icon="solar:star-bold" width="13" style="color:var(--cobalt)"></iconify-icon>
+            <iconify-icon icon="solar:star-bold" width="13" style="color:var(--cobalt)"></iconify-icon>
+        </div>
+        <div class="review-text">"노브라로 출근하고 싶었는데 비침이 걱정이었어요. 라이티 입고 나서 고민 끝. 오피스룩으로도 완벽."</div>
+        <div class="review-author">
+            <img src="https://i.pravatar.cc/150?u=lytetee-r2" alt="박하은" loading="lazy">
+            <div>
+                <div class="name">박하은</div>
+                <div class="role">마케팅 매니저, 31세</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="reveal review-card">
+        <div class="review-stars">
+            <iconify-icon icon="solar:star-bold" width="13" style="color:var(--cobalt)"></iconify-icon>
+            <iconify-icon icon="solar:star-bold" width="13" style="color:var(--cobalt)"></iconify-icon>
+            <iconify-icon icon="solar:star-bold" width="13" style="color:var(--cobalt)"></iconify-icon>
+            <iconify-icon icon="solar:star-bold" width="13" style="color:var(--cobalt)"></iconify-icon>
+            <iconify-icon icon="solar:star-bold" width="13" style="color:var(--cobalt)"></iconify-icon>
+        </div>
+        <div class="review-text">"세탁기에 막 돌려도 넥라인 안 늘어나는 게 신기. 이 가격에 이 퀄리티 처음이에요. 친구들 전부 포교했습니다."</div>
+        <div class="review-author">
+            <img src="https://i.pravatar.cc/150?u=lytetee-r4" alt="이유진" loading="lazy">
+            <div>
+                <div class="name">이유진</div>
+                <div class="role">대학생, 23세</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section id="shop" class="cta-section">
+    <div class="cta-glow"></div>
+    <div class="reveal" style="position:relative; z-index:2;">
+        <div class="hero-badge" style="margin-bottom:20px;">Start Here</div>
+        <div class="section-title" style="margin-bottom:16px;">
+            내일부터<br>티셔츠 하나로
+        </div>
+        <p class="section-desc" style="margin:0 auto 32px; text-align:center;">
+            첫 구매 10% 할인, 무료 배송.<br>14일 이내 무조건 반품 가능.
+        </p>
+        <a href="#" class="cta-btn">10% 할인받고 시작하기</a>
+        <div class="trust-badges">
+            <span><iconify-icon icon="solar:verified-check-linear" width="13" style="color:var(--cobalt)"></iconify-icon> 14일 반품</span>
+            <span><iconify-icon icon="solar:delivery-linear" width="13" style="color:var(--cobalt)"></iconify-icon> 무료 배송</span>
+            <span><iconify-icon icon="solar:star-bold" width="13" style="color:var(--cobalt)"></iconify-icon> 4.91</span>
+            <span><iconify-icon icon="solar:lock-linear" width="13" style="color:var(--cobalt)"></iconify-icon> 안전 결제</span>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-logo">LYTETEE</div>
+    <div class="footer-desc">
+        모든 체형의 여성이 티셔츠 한 장으로 자신감을 입을 수 있도록.
+    </div>
+    <div class="footer-socials">
+        <a href="#" aria-label="Instagram"><iconify-icon icon="solar:instagram-linear" width="18"></iconify-icon></a>
+        <a href="#" aria-label="TikTok"><iconify-icon icon="solar:music-note-linear" width="18"></iconify-icon></a>
+        <a href="#" aria-label="카카오톡"><iconify-icon icon="solar:chat-round-linear" width="18"></iconify-icon></a>
+    </div>
+    <div class="footer-links">
+        <div>
+            <h5>Shop</h5>
+            <ul>
+                <li><a href="#">전체 상품</a></li>
+                <li><a href="#">베스트셀러</a></li>
+                <li><a href="#">사이즈 가이드</a></li>
+            </ul>
+        </div>
+        <div>
+            <h5>Support</h5>
+            <ul>
+                <li><a href="#">자주 묻는 질문</a></li>
+                <li><a href="#">배송 및 반품</a></li>
+                <li><a href="#">카카오톡 상담</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        2026 Lytetee. All rights reserved.<br>
+        사업자등록번호 123-45-67890 | 서울특별시 성동구 성수이로 51
+    </div>
+</footer>
+
+<script>
+    // ---- THREE.JS HERO ----
+    const container = document.getElementById('canvas-container');
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 100);
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    container.appendChild(renderer.domElement);
+
+    // Floating geometric shapes
+    const group = new THREE.Group();
+    scene.add(group);
+
+    const mat = new THREE.MeshStandardMaterial({
+        color: 0x111111,
+        metalness: 0.8,
+        roughness: 0.15,
+    });
+
+    // Central torus
+    const torus = new THREE.Mesh(new THREE.TorusGeometry(1.2, 0.35, 32, 64), mat);
+    group.add(torus);
+
+    // Orbiting spheres
+    const sphereMat = new THREE.MeshStandardMaterial({
+        color: 0x4A7FD4,
+        metalness: 0.6,
+        roughness: 0.2,
+        emissive: 0x4A7FD4,
+        emissiveIntensity: 0.15,
+    });
+
+    for (let i = 0; i < 5; i++) {
+        const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.1 + Math.random() * 0.12, 16, 16), sphereMat);
+        sphere.position.set(
+            (Math.random() - 0.5) * 4,
+            (Math.random() - 0.5) * 3,
+            (Math.random() - 0.5) * 2
+        );
+        sphere.userData = {
+            speed: 0.003 + Math.random() * 0.005,
+            radius: 1.5 + Math.random() * 1.5,
+            offset: Math.random() * Math.PI * 2
+        };
+        group.add(sphere);
+    }
+
+    // Lighting
+    const pointLight = new THREE.PointLight(0x4A7FD4, 2.5, 30);
+    pointLight.position.set(3, 3, 4);
+    scene.add(pointLight);
+
+    const pointLight2 = new THREE.PointLight(0xB8D4E8, 1.5, 20);
+    pointLight2.position.set(-3, -2, 3);
+    scene.add(pointLight2);
+
+    scene.add(new THREE.AmbientLight(0xffffff, 0.3));
+
+    camera.position.z = 5;
+
+    // Touch / mouse interaction
+    let pointerX = 0, pointerY = 0;
+    const onPointer = (x, y) => {
+        pointerX = (x / window.innerWidth) - 0.5;
+        pointerY = (y / window.innerHeight) - 0.5;
+    };
+    document.addEventListener('mousemove', (e) => onPointer(e.clientX, e.clientY));
+    document.addEventListener('touchmove', (e) => {
+        if (e.touches.length > 0) onPointer(e.touches[0].clientX, e.touches[0].clientY);
+    }, { passive: true });
+
+    let time = 0;
+    function animate() {
+        requestAnimationFrame(animate);
+        time += 0.01;
+
+        torus.rotation.x += 0.003;
+        torus.rotation.y += 0.005;
+        torus.rotation.x += pointerY * 0.02;
+        torus.rotation.y += pointerX * 0.02;
+
+        // Orbit spheres
+        group.children.forEach((child, i) => {
+            if (i === 0) return; // skip torus
+            const d = child.userData;
+            if (d) {
+                child.position.x = Math.cos(time * d.speed * 60 + d.offset) * d.radius;
+                child.position.y = Math.sin(time * d.speed * 40 + d.offset) * d.radius * 0.6;
+            }
+        });
+
+        renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // ---- SCROLL REVEAL ----
+    const reveals = document.querySelectorAll('.reveal');
+    const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.classList.add('visible');
+                obs.unobserve(e.target);
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+    reveals.forEach(el => obs.observe(el));
+
+    // ---- COLOR SWATCH INTERACTION ----
+    document.querySelectorAll('.swatch').forEach(s => {
+        s.addEventListener('click', () => {
+            document.querySelectorAll('.swatch').forEach(x => x.classList.remove('active'));
+            s.classList.add('active');
+        });
+    });
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', function(e) {
+            const t = document.querySelector(this.getAttribute('href'));
+            if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
+        });
+    });
+</script>
+
+</body>
+</html>
