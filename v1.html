@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lytetee — 라이티 | 나답게 입는 베이직</title>
+  <meta name="description" content="라이티는 다양한 체형의 여성을 위한 노브라웨어 오버핏 티셔츠 브랜드입니다. 편안하게, 자유롭게, 나답게.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://code.iconify.design/iconify-icon/2.3.0/iconify-icon.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Pretendard', 'system-ui', 'sans-serif'],
+            display: ['Outfit', 'Pretendard', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            sky: {
+              pastel: '#B8D4E8',
+              light: '#A3C6E0',
+              ice: '#E8F1F8',
+              wash: '#F4F8FB',
+            },
+            cobalt: {
+              DEFAULT: '#2B5EA7',
+              deep: '#1E4A8A',
+              bright: '#3B72C4',
+              muted: '#5A8AC7',
+            },
+            ink: '#0A0A0A',
+            ash: '#6B7280',
+            cloud: '#F7F8FA',
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    /* Global line-height boost */
+    body { line-height: 1.8; }
+    h1, h2, h3, h4 { line-height: 1.35; }
+
+    .noise-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      pointer-events: none;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(2rem); filter: blur(4px); }
+      to { opacity: 1; transform: translateY(0); filter: blur(0); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-8px) rotate(1deg); }
+    }
+
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    @keyframes pulse-soft {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+
+    .animate-fade-in-up {
+      opacity: 0;
+      animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .animate-float { animation: float 6s ease-in-out infinite; }
+    .animate-float-slow { animation: floatSlow 8s ease-in-out infinite; }
+    .animate-marquee { animation: marquee 35s linear infinite; }
+
+    .stagger-1 { animation-delay: 80ms; }
+    .stagger-2 { animation-delay: 160ms; }
+    .stagger-3 { animation-delay: 240ms; }
+    .stagger-4 { animation-delay: 320ms; }
+    .stagger-5 { animation-delay: 400ms; }
+
+    .spring-hover {
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .glass-nav {
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(10, 10, 10, 0.06);
+    }
+
+    .glass-nav-dark {
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      background: rgba(10, 10, 10, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .card-outer {
+      background: rgba(10, 10, 10, 0.02);
+      padding: 6px;
+      border-radius: 1.5rem;
+      border: 1px solid rgba(10, 10, 10, 0.05);
+    }
+
+    .card-inner {
+      background: #fff;
+      border-radius: calc(1.5rem - 6px);
+      box-shadow: inset 0 1px 1px rgba(255,255,255,0.8);
+    }
+
+    .card-outer-dark {
+      background: rgba(255, 255, 255, 0.04);
+      padding: 6px;
+      border-radius: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .card-inner-dark {
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: calc(1.5rem - 6px);
+      box-shadow: inset 0 1px 1px rgba(255,255,255,0.05);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(2rem);
+      filter: blur(4px);
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+
+    .mobile-menu {
+      backdrop-filter: blur(40px);
+      -webkit-backdrop-filter: blur(40px);
+    }
+
+    .hero-mesh {
+      background:
+        radial-gradient(ellipse 70% 50% at 75% 40%, rgba(43, 94, 167, 0.07), transparent),
+        radial-gradient(ellipse 50% 60% at 20% 70%, rgba(184, 212, 232, 0.12), transparent),
+        radial-gradient(ellipse 40% 40% at 50% 20%, rgba(163, 198, 224, 0.08), transparent);
+    }
+
+    .text-gradient-cobalt {
+      background: linear-gradient(135deg, #2B5EA7, #5A8AC7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+  </style>
+</head>
+<body class="bg-white font-sans text-ink antialiased overflow-x-hidden break-keep">
+
+  <div class="noise-overlay"></div>
+
+  <!-- ============================================== -->
+  <!-- NAVIGATION -->
+  <!-- ============================================== -->
+  <nav class="fixed top-4 left-1/2 -translate-x-1/2 z-40 w-[calc(100%-2rem)] max-w-3xl">
+    <div class="glass-nav rounded-full px-4 sm:px-6 py-3 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-2.5">
+        <span class="text-lg font-display font-bold tracking-tight text-ink">Lytetee</span>
+      </a>
+
+      <div class="hidden md:flex items-center gap-8 text-[13px] text-ink/50 font-medium">
+        <a href="#about" class="spring-hover hover:text-cobalt">About</a>
+        <a href="#collection" class="spring-hover hover:text-cobalt">Collection</a>
+        <a href="#reviews" class="spring-hover hover:text-cobalt">Reviews</a>
+        <a href="#shop" class="spring-hover rounded-full bg-ink text-white px-5 py-2.5 hover:bg-cobalt hover:scale-[1.02] active:scale-[0.98]">
+          Shop Now
+        </a>
+      </div>
+
+      <button id="menuBtn" class="md:hidden w-10 h-10 flex items-center justify-center rounded-full hover:bg-ink/5 spring-hover" aria-label="메뉴 열기">
+        <iconify-icon icon="solar:hamburger-menu-linear" width="22"></iconify-icon>
+      </button>
+    </div>
+
+    <div id="mobileMenu" class="mobile-menu fixed inset-0 bg-white/95 z-50 hidden flex-col items-center justify-center gap-8">
+      <button id="closeMenu" class="absolute top-6 right-6 w-10 h-10 rounded-full bg-ink/5 flex items-center justify-center spring-hover" aria-label="메뉴 닫기">
+        <iconify-icon icon="solar:close-circle-linear" width="24"></iconify-icon>
+      </button>
+      <a href="#about" class="text-2xl font-medium spring-hover hover:text-cobalt mobile-link" style="opacity:0; transform:translateY(2rem)">About</a>
+      <a href="#collection" class="text-2xl font-medium spring-hover hover:text-cobalt mobile-link" style="opacity:0; transform:translateY(2rem)">Collection</a>
+      <a href="#reviews" class="text-2xl font-medium spring-hover hover:text-cobalt mobile-link" style="opacity:0; transform:translateY(2rem)">Reviews</a>
+      <a href="#shop" class="text-xl rounded-full bg-ink text-white px-8 py-4 spring-hover hover:bg-cobalt hover:scale-[1.02] active:scale-[0.98] mobile-link" style="opacity:0; transform:translateY(2rem)">Shop Now</a>
+    </div>
+  </nav>
+
+  <!-- ============================================== -->
+  <!-- HERO — Split Layout -->
+  <!-- ============================================== -->
+  <section class="min-h-[100dvh] relative hero-mesh flex items-center">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-28 pb-16 md:pt-0 md:pb-0">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-6 items-center">
+
+        <!-- Text — Left -->
+        <div class="md:col-span-5 space-y-7">
+          <div class="animate-fade-in-up">
+            <span class="inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[11px] uppercase tracking-[0.15em] font-semibold bg-cobalt/8 text-cobalt">
+              <span class="w-1.5 h-1.5 rounded-full bg-cobalt animate-pulse"></span>
+              No-Bra Wear
+            </span>
+          </div>
+
+          <h1 class="animate-fade-in-up stagger-1 text-[2.75rem] md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.15] text-ink font-display">
+            Just a Tee.<br>
+            <span class="text-gradient-cobalt">Nothing else.</span>
+          </h1>
+
+          <p class="animate-fade-in-up stagger-2 text-base md:text-lg text-ash leading-loose max-w-[42ch]">
+            브라 없이 입는 오버핏 티셔츠. 비침 없이, 조임 없이, 있는 그대로의 나를 위한 베이직. 라이티가 만드는 새로운 기준.
+          </p>
+
+          <div class="animate-fade-in-up stagger-3 flex flex-col sm:flex-row gap-3">
+            <a href="#shop" class="group inline-flex items-center gap-3 rounded-full bg-ink text-white px-8 py-4 text-base font-semibold spring-hover hover:bg-cobalt hover:scale-[1.02] active:scale-[0.98]">
+              컬렉션 보러가기
+              <span class="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center spring-hover group-hover:translate-x-1">
+                <iconify-icon icon="solar:arrow-right-linear" width="15"></iconify-icon>
+              </span>
+            </a>
+            <a href="#about" class="inline-flex items-center gap-2 rounded-full px-6 py-4 text-ash text-sm font-medium spring-hover hover:text-cobalt hover:bg-cobalt/5">
+              <iconify-icon icon="solar:info-circle-linear" width="18"></iconify-icon>
+              브랜드 스토리
+            </a>
+          </div>
+
+          <div class="animate-fade-in-up stagger-4 flex items-center gap-5 pt-2">
+            <div class="flex -space-x-2.5">
+              <img src="https://i.pravatar.cc/150?u=lytetee1" alt="고객" class="w-8 h-8 rounded-full border-2 border-white" loading="lazy" decoding="async">
+              <img src="https://i.pravatar.cc/150?u=lytetee2" alt="고객" class="w-8 h-8 rounded-full border-2 border-white" loading="lazy" decoding="async">
+              <img src="https://i.pravatar.cc/150?u=lytetee3" alt="고객" class="w-8 h-8 rounded-full border-2 border-white" loading="lazy" decoding="async">
+              <img src="https://i.pravatar.cc/150?u=lytetee4" alt="고객" class="w-8 h-8 rounded-full border-2 border-white" loading="lazy" decoding="async">
+              <img src="https://i.pravatar.cc/150?u=lytetee5" alt="고객" class="w-8 h-8 rounded-full border-2 border-white" loading="lazy" decoding="async">
+            </div>
+            <p class="text-xs text-ash">
+              <span class="text-ink font-semibold">18,430명</span>이 선택한 티셔츠
+            </p>
+          </div>
+        </div>
+
+        <!-- Visual — Right (Photo Grid) -->
+        <div class="md:col-span-7 relative">
+          <div class="grid grid-cols-12 gap-3 md:gap-4">
+            <!-- Main large image -->
+            <div class="col-span-7 animate-fade-in-up stagger-1">
+              <div class="rounded-[1.75rem] overflow-hidden">
+                <img src="images/전신01_최종_끈추가_컬러보정.png" alt="라이티 네이비 후드 전신컷" class="w-full h-[380px] md:h-[520px] lg:h-[600px] object-cover" decoding="async">
+              </div>
+            </div>
+
+            <!-- Stacked right images -->
+            <div class="col-span-5 flex flex-col gap-3 md:gap-4">
+              <div class="animate-fade-in-up stagger-2 flex-1">
+                <div class="rounded-[1.75rem] overflow-hidden h-full">
+                  <img src="images/상반신03_최종_컬러보정2.png" alt="라이티 네이비 후드 상반신" class="w-full h-full min-h-[180px] md:min-h-[250px] object-cover" loading="lazy" decoding="async">
+                </div>
+              </div>
+              <div class="animate-fade-in-up stagger-3 flex-1">
+                <div class="rounded-[1.75rem] overflow-hidden h-full">
+                  <img src="images/그레이_전신01_최종4.png" alt="라이티 그레이 오버핏 전신컷" class="w-full h-full min-h-[180px] md:min-h-[250px] object-cover" loading="lazy" decoding="async">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Floating badge -->
+          <div class="absolute -bottom-4 left-4 md:left-8 animate-float-slow z-10">
+            <div class="card-outer">
+              <div class="card-inner px-5 py-3.5 flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-sky-ice flex items-center justify-center">
+                  <iconify-icon icon="solar:star-bold" width="18" class="text-cobalt"></iconify-icon>
+                </div>
+                <div>
+                  <p class="text-[11px] text-ash">고객 만족도</p>
+                  <p class="font-bold text-ink text-sm">4.91 / 5.0</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================== -->
+  <!-- SOCIAL PROOF — Metrics + Marquee -->
+  <!-- ============================================== -->
+  <section class="py-14 md:py-16 border-y border-ink/5 bg-cloud">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="reveal grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 text-center mb-12">
+        <div>
+          <p class="text-3xl md:text-4xl font-extrabold text-ink tracking-tight font-display">18,430<span class="text-cobalt">+</span></p>
+          <p class="text-xs text-ash mt-1 tracking-wide">누적 판매</p>
+        </div>
+        <div>
+          <p class="text-3xl md:text-4xl font-extrabold text-ink tracking-tight font-display">4.91</p>
+          <p class="text-xs text-ash mt-1 tracking-wide">평균 별점</p>
+        </div>
+        <div>
+          <p class="text-3xl md:text-4xl font-extrabold text-ink tracking-tight font-display">97.6<span class="text-cobalt">%</span></p>
+          <p class="text-xs text-ash mt-1 tracking-wide">재구매율</p>
+        </div>
+        <div>
+          <p class="text-3xl md:text-4xl font-extrabold text-ink tracking-tight font-display">8<span class="text-cobalt">컬러</span></p>
+          <p class="text-xs text-ash mt-1 tracking-wide">상시 컬러 라인업</p>
+        </div>
+      </div>
+
+      <div class="reveal overflow-hidden relative">
+        <div class="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-cloud to-transparent z-10"></div>
+        <div class="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-cloud to-transparent z-10"></div>
+        <div class="flex animate-marquee whitespace-nowrap items-center gap-10">
+          <span class="text-ink/15 text-sm font-semibold tracking-[0.2em] uppercase">Vogue Korea</span>
+          <span class="text-ink/8">|</span>
+          <span class="text-ink/15 text-sm font-semibold tracking-[0.2em] uppercase">W Magazine</span>
+          <span class="text-ink/8">|</span>
+          <span class="text-ink/15 text-sm font-semibold tracking-[0.2em] uppercase">Elle</span>
+          <span class="text-ink/8">|</span>
+          <span class="text-ink/15 text-sm font-semibold tracking-[0.2em] uppercase">Dazed</span>
+          <span class="text-ink/8">|</span>
+          <span class="text-ink/15 text-sm font-semibold tracking-[0.2em] uppercase">Hypebae</span>
+          <span class="text-ink/8">|</span>
+          <span class="text-ink/15 text-sm font-semibold tracking-[0.2em] uppercase">Nylon</span>
+          <span class="text-ink/8">|</span>
+          <span class="text-ink/15 text-sm font-semibold tracking-[0.2em] uppercase">1st Look</span>
+          <span class="text-ink/8">|</span>
+          <span class="text-ink/15 text-sm font-semibold tracking-[0.2em] uppercase">Vogue Korea</span>
+          <span class="text-ink/8">|</span>
+          <span class="text-ink/15 text-sm font-semibold tracking-[0.2em] uppercase">W Magazine</span>
+          <span class="text-ink/8">|</span>
+          <span class="text-ink/15 text-sm font-semibold tracking-[0.2em] uppercase">Elle</span>
+          <span class="text-ink/8">|</span>
+          <span class="text-ink/15 text-sm font-semibold tracking-[0.2em] uppercase">Dazed</span>
+          <span class="text-ink/8">|</span>
+          <span class="text-ink/15 text-sm font-semibold tracking-[0.2em] uppercase">Hypebae</span>
+          <span class="text-ink/8">|</span>
+          <span class="text-ink/15 text-sm font-semibold tracking-[0.2em] uppercase">Nylon</span>
+          <span class="text-ink/8">|</span>
+          <span class="text-ink/15 text-sm font-semibold tracking-[0.2em] uppercase">1st Look</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================== -->
+  <!-- BRAND STORY — Zig-Zag -->
+  <!-- ============================================== -->
+  <section id="about" class="py-24 md:py-32 lg:py-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="reveal max-w-2xl mb-20">
+        <span class="inline-block rounded-full px-3.5 py-1.5 text-[11px] uppercase tracking-[0.15em] font-semibold bg-cobalt/8 text-cobalt mb-6">
+          About Lytetee
+        </span>
+        <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight leading-snug font-display">
+          티셔츠 한 장이면<br>
+          <span class="text-gradient-cobalt">충분한 하루</span>
+        </h2>
+      </div>
+
+      <!-- Block 1: Image left, Text right -->
+      <div class="reveal grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-center mb-24 md:mb-32">
+        <div class="rounded-[1.75rem] overflow-hidden">
+          <img src="images/확대컷01.png" alt="라이티 후드 디테일 클로즈업" class="w-full h-[300px] md:h-[420px] object-cover" loading="lazy" decoding="async">
+        </div>
+        <div class="space-y-6">
+          <div class="w-12 h-12 rounded-2xl bg-sky-ice flex items-center justify-center">
+            <iconify-icon icon="solar:t-shirt-linear" width="24" class="text-cobalt"></iconify-icon>
+          </div>
+          <h3 class="text-2xl md:text-3xl font-bold tracking-tight leading-snug">
+            오버핏이 답이다
+          </h3>
+          <p class="text-base md:text-lg text-ash leading-loose max-w-[48ch]">
+            라이티의 오버핏은 단순히 큰 사이즈가 아닙니다. 어깨 드롭, 품, 기장까지 수십 번의 샘플링을 거쳐 모든 체형에서 가장 자연스럽게 떨어지는 실루엣을 찾았습니다. 브라 없이도 비침 걱정 없는 이중 레이어 구조.
+          </p>
+          <div class="flex flex-wrap items-center gap-3 text-xs text-ash">
+            <span class="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 bg-sky-ice text-cobalt font-medium">
+              <iconify-icon icon="solar:verified-check-linear" width="14"></iconify-icon>
+              비침 제로
+            </span>
+            <span class="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 bg-sky-ice text-cobalt font-medium">
+              <iconify-icon icon="solar:verified-check-linear" width="14"></iconify-icon>
+              내장 서포트
+            </span>
+            <span class="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 bg-sky-ice text-cobalt font-medium">
+              <iconify-icon icon="solar:verified-check-linear" width="14"></iconify-icon>
+              와이어 프리
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Block 2: Text left, Image right -->
+      <div class="reveal grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-center">
+        <div class="space-y-6 md:order-1 order-2">
+          <div class="w-12 h-12 rounded-2xl bg-sky-ice flex items-center justify-center">
+            <iconify-icon icon="solar:palette-linear" width="24" class="text-cobalt"></iconify-icon>
+          </div>
+          <h3 class="text-2xl md:text-3xl font-bold tracking-tight leading-snug">
+            무지의 미학
+          </h3>
+          <p class="text-base md:text-lg text-ash leading-loose max-w-[48ch]">
+            프린트도, 로고도 필요 없습니다. 핏과 컬러, 원단 그 자체로 완성되는 디자인. 8가지 시그니처 컬러는 어떤 하의와도 자연스럽게 어울리며, 세탁 후에도 색감이 유지됩니다.
+          </p>
+          <div class="flex items-center gap-2">
+            <span class="w-7 h-7 rounded-full bg-ink border-2 border-white shadow-sm" title="블랙"></span>
+            <span class="w-7 h-7 rounded-full bg-white border-2 border-ink/10 shadow-sm" title="화이트"></span>
+            <span class="w-7 h-7 rounded-full bg-sky-pastel border-2 border-white shadow-sm" title="스카이"></span>
+            <span class="w-7 h-7 rounded-full bg-cobalt border-2 border-white shadow-sm" title="코발트"></span>
+            <span class="w-7 h-7 rounded-full bg-[#C4C4C4] border-2 border-white shadow-sm" title="애쉬"></span>
+            <span class="w-7 h-7 rounded-full bg-[#E8DDD3] border-2 border-white shadow-sm" title="샌드"></span>
+            <span class="w-7 h-7 rounded-full bg-[#D4E4D9] border-2 border-white shadow-sm" title="세이지"></span>
+            <span class="w-7 h-7 rounded-full bg-[#2C2C2C] border-2 border-white shadow-sm" title="차콜"></span>
+          </div>
+        </div>
+        <div class="rounded-[1.75rem] overflow-hidden md:order-2 order-1">
+          <img src="images/후드_디테일_원단.png" alt="라이티 원단 텍스처 디테일" class="w-full h-[300px] md:h-[420px] object-cover" loading="lazy" decoding="async">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================== -->
+  <!-- COLLECTION — Bento Grid (Dark Section) -->
+  <!-- ============================================== -->
+  <section id="collection" class="py-24 md:py-32 lg:py-40 bg-ink text-white relative overflow-hidden">
+    <div class="absolute inset-0">
+      <div class="absolute top-1/3 left-1/4 w-[500px] h-[500px] rounded-full bg-cobalt/8 blur-3xl animate-float"></div>
+      <div class="absolute bottom-1/4 right-1/3 w-[400px] h-[400px] rounded-full bg-sky-pastel/5 blur-3xl animate-float-slow"></div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="reveal text-center max-w-2xl mx-auto mb-16 md:mb-20">
+        <span class="inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[11px] uppercase tracking-[0.15em] font-semibold bg-white/8 text-sky-pastel mb-6">
+          Collection
+        </span>
+        <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight leading-snug font-display">
+          하나면 충분하지만<br>
+          <span class="text-sky-pastel">전부 갖고 싶은 티셔츠</span>
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-5">
+        <!-- Featured large -->
+        <div class="reveal md:col-span-8 md:row-span-2 group">
+          <div class="h-full rounded-[2rem] p-1.5 bg-white/[0.04] ring-1 ring-white/[0.08]">
+            <div class="h-full rounded-[calc(2rem-0.375rem)] overflow-hidden relative shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)]">
+              <img src="images/블랙_전신01_최종3.png" alt="시그니처 블랙 오버핏 전신컷" class="w-full h-[380px] md:h-full object-cover opacity-85 group-hover:opacity-100 group-hover:scale-[1.02] spring-hover" loading="lazy" decoding="async">
+              <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent"></div>
+              <div class="absolute bottom-0 left-0 right-0 p-6 md:p-10">
+                <span class="inline-block rounded-full px-3 py-1 text-[11px] uppercase tracking-[0.15em] font-semibold bg-cobalt/40 text-sky-pastel mb-4">Best Seller</span>
+                <h3 class="text-2xl md:text-3xl font-bold font-display mb-2">시그니처 오버핏 티</h3>
+                <p class="text-white/50 text-sm leading-loose max-w-[40ch] mb-6">이중 레이어 코튼, 내장 브라패드, 릴렉스 숄더 드롭. 라이티의 모든 기술이 담긴 시그니처.</p>
+                <div class="flex items-center justify-between">
+                  <span class="text-xl font-bold font-display">29,800원</span>
+                  <a href="#" class="group/btn inline-flex items-center gap-2 rounded-full bg-white text-ink px-6 py-3 text-sm font-semibold spring-hover hover:scale-[1.02] active:scale-[0.98]">
+                    바로 구매
+                    <span class="w-6 h-6 rounded-full bg-ink/5 flex items-center justify-center spring-hover group-hover/btn:translate-x-1">
+                      <iconify-icon icon="solar:arrow-right-linear" width="14"></iconify-icon>
+                    </span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Small 1 -->
+        <div class="reveal stagger-1 md:col-span-4 group">
+          <div class="h-full rounded-[2rem] p-1.5 bg-white/[0.04] ring-1 ring-white/[0.08]">
+            <div class="h-full rounded-[calc(2rem-0.375rem)] overflow-hidden relative shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)]">
+              <img src="images/네이비 후드티_최종2.png" alt="네이비 후드티 제품컷" class="w-full h-[260px] object-cover opacity-85 group-hover:opacity-100 group-hover:scale-[1.02] spring-hover" loading="lazy" decoding="async">
+              <div class="absolute inset-0 bg-gradient-to-t from-ink via-transparent to-transparent"></div>
+              <div class="absolute bottom-0 left-0 right-0 p-6">
+                <h3 class="text-lg font-bold font-display mb-1">크롭 오버핏 티</h3>
+                <div class="flex items-center justify-between">
+                  <span class="text-white/50 text-sm">27,800원</span>
+                  <iconify-icon icon="solar:arrow-right-up-linear" width="18" class="text-white/30 group-hover:text-sky-pastel spring-hover"></iconify-icon>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Small 2 -->
+        <div class="reveal stagger-2 md:col-span-4 group">
+          <div class="h-full rounded-[2rem] p-1.5 bg-white/[0.04] ring-1 ring-white/[0.08]">
+            <div class="h-full rounded-[calc(2rem-0.375rem)] overflow-hidden relative shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)]">
+              <img src="images/블랙 후드티.png" alt="블랙 후드티 제품컷" class="w-full h-[260px] object-cover opacity-85 group-hover:opacity-100 group-hover:scale-[1.02] spring-hover" loading="lazy" decoding="async">
+              <div class="absolute inset-0 bg-gradient-to-t from-ink via-transparent to-transparent"></div>
+              <div class="absolute bottom-0 left-0 right-0 p-6">
+                <h3 class="text-lg font-bold font-display mb-1">롱슬리브 오버핏 티</h3>
+                <div class="flex items-center justify-between">
+                  <span class="text-white/50 text-sm">32,800원</span>
+                  <iconify-icon icon="solar:arrow-right-up-linear" width="18" class="text-white/30 group-hover:text-sky-pastel spring-hover"></iconify-icon>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Perks strip -->
+      <div class="reveal grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
+        <div class="rounded-2xl p-5 bg-white/[0.04] ring-1 ring-white/[0.08] flex items-center gap-4">
+          <div class="w-11 h-11 rounded-xl bg-cobalt/20 flex items-center justify-center shrink-0">
+            <iconify-icon icon="solar:delivery-linear" width="20" class="text-sky-pastel"></iconify-icon>
+          </div>
+          <div>
+            <p class="font-semibold text-sm">무료 배송</p>
+            <p class="text-white/30 text-xs">전 상품 무료</p>
+          </div>
+        </div>
+        <div class="rounded-2xl p-5 bg-white/[0.04] ring-1 ring-white/[0.08] flex items-center gap-4">
+          <div class="w-11 h-11 rounded-xl bg-cobalt/20 flex items-center justify-center shrink-0">
+            <iconify-icon icon="solar:refresh-linear" width="20" class="text-sky-pastel"></iconify-icon>
+          </div>
+          <div>
+            <p class="font-semibold text-sm">14일 무료 반품</p>
+            <p class="text-white/30 text-xs">착용 후에도 가능</p>
+          </div>
+        </div>
+        <div class="rounded-2xl p-5 bg-white/[0.04] ring-1 ring-white/[0.08] flex items-center gap-4">
+          <div class="w-11 h-11 rounded-xl bg-cobalt/20 flex items-center justify-center shrink-0">
+            <iconify-icon icon="solar:tag-price-linear" width="20" class="text-sky-pastel"></iconify-icon>
+          </div>
+          <div>
+            <p class="font-semibold text-sm">첫 구매 10% 할인</p>
+            <p class="text-white/30 text-xs">가입 즉시 적용</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================== -->
+  <!-- WHY LYTETEE — Feature Cards -->
+  <!-- ============================================== -->
+  <section class="py-24 md:py-32 lg:py-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="reveal text-center max-w-2xl mx-auto mb-16 md:mb-20">
+        <span class="inline-block rounded-full px-3.5 py-1.5 text-[11px] uppercase tracking-[0.15em] font-semibold bg-cobalt/8 text-cobalt mb-6">
+          Why Lytetee
+        </span>
+        <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight leading-snug font-display">
+          그냥 티셔츠가 아닌<br>
+          <span class="text-gradient-cobalt">네 가지 이유</span>
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <!-- Card 1 -->
+        <div class="reveal stagger-1">
+          <div class="card-outer h-full group spring-hover hover:shadow-[0_20px_60px_-15px_rgba(43,94,167,0.1)]">
+            <div class="card-inner p-8 md:p-10 h-full">
+              <div class="flex items-start justify-between mb-8">
+                <div class="w-14 h-14 rounded-2xl bg-sky-ice flex items-center justify-center">
+                  <iconify-icon icon="solar:shield-check-linear" width="26" class="text-cobalt"></iconify-icon>
+                </div>
+                <span class="text-[11px] uppercase tracking-[0.15em] font-semibold text-cobalt/40">01</span>
+              </div>
+              <h3 class="text-xl font-bold mb-3 leading-snug">이중 레이어 비침 차단</h3>
+              <p class="text-ash leading-loose text-sm">
+                겉감과 안감의 이중 구조로 화이트 컬러에서도 속옷 라인이 전혀 비치지 않습니다. 투명도 테스트를 통과한 유일한 노브라웨어.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="reveal stagger-2">
+          <div class="card-outer h-full group spring-hover hover:shadow-[0_20px_60px_-15px_rgba(43,94,167,0.1)]">
+            <div class="card-inner p-8 md:p-10 h-full">
+              <div class="flex items-start justify-between mb-8">
+                <div class="w-14 h-14 rounded-2xl bg-sky-ice flex items-center justify-center">
+                  <iconify-icon icon="solar:ruler-angular-linear" width="26" class="text-cobalt"></iconify-icon>
+                </div>
+                <span class="text-[11px] uppercase tracking-[0.15em] font-semibold text-cobalt/40">02</span>
+              </div>
+              <h3 class="text-xl font-bold mb-3 leading-snug">체형별 맞춤 패턴</h3>
+              <p class="text-ash leading-loose text-sm">
+                44부터 110까지, 7가지 사이즈에 맞춰 각각 다른 패턴을 적용합니다. 같은 디자인이지만 당신의 체형에서 가장 아름다운 실루엣을 구현합니다.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="reveal stagger-3">
+          <div class="card-outer h-full group spring-hover hover:shadow-[0_20px_60px_-15px_rgba(43,94,167,0.1)]">
+            <div class="card-inner p-8 md:p-10 h-full">
+              <div class="flex items-start justify-between mb-8">
+                <div class="w-14 h-14 rounded-2xl bg-sky-ice flex items-center justify-center">
+                  <iconify-icon icon="solar:washing-machine-linear" width="26" class="text-cobalt"></iconify-icon>
+                </div>
+                <span class="text-[11px] uppercase tracking-[0.15em] font-semibold text-cobalt/40">03</span>
+              </div>
+              <h3 class="text-xl font-bold mb-3 leading-snug">50회 세탁 내구성</h3>
+              <p class="text-ash leading-loose text-sm">
+                프리미엄 코마사 원단과 강화 봉제로 50회 세탁 후에도 넥라인 늘어남, 보풀, 수축이 없습니다. 매일 입어도 처음 그 핏 그대로.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="reveal stagger-4">
+          <div class="card-outer h-full group spring-hover hover:shadow-[0_20px_60px_-15px_rgba(43,94,167,0.1)]">
+            <div class="card-inner p-8 md:p-10 h-full">
+              <div class="flex items-start justify-between mb-8">
+                <div class="w-14 h-14 rounded-2xl bg-sky-ice flex items-center justify-center">
+                  <iconify-icon icon="solar:heart-pulse-linear" width="26" class="text-cobalt"></iconify-icon>
+                </div>
+                <span class="text-[11px] uppercase tracking-[0.15em] font-semibold text-cobalt/40">04</span>
+              </div>
+              <h3 class="text-xl font-bold mb-3 leading-snug">내장 소프트 서포트</h3>
+              <p class="text-ash leading-loose text-sm">
+                탈착 가능한 울트라씬 브라패드가 내장되어 있어, 브라 없이도 자연스러운 형태감을 유지합니다. 원하지 않으면 빼고 입어도 됩니다.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================== -->
+  <!-- LOOKBOOK — Full-width Image Strip -->
+  <!-- ============================================== -->
+  <section class="py-24 md:py-32 bg-cloud">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="reveal text-center max-w-xl mx-auto mb-12">
+        <span class="inline-block rounded-full px-3.5 py-1.5 text-[11px] uppercase tracking-[0.15em] font-semibold bg-cobalt/8 text-cobalt mb-6">
+          Lookbook
+        </span>
+        <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-snug font-display">
+          모든 체형에서<br>
+          <span class="text-gradient-cobalt">아름답게</span>
+        </h2>
+        <p class="text-ash text-sm mt-4 max-w-[40ch] mx-auto">다양한 체형과 인종의 모델들이 보여주는 라이티의 리얼핏.</p>
+      </div>
+
+      <div class="reveal grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+        <div class="rounded-[1.25rem] overflow-hidden">
+          <img src="images/전신01_최종8.png" alt="라이티 룩북 - 그레이 후드" class="w-full h-[240px] md:h-[380px] object-cover hover:scale-[1.03] spring-hover" loading="lazy" decoding="async">
+        </div>
+        <div class="rounded-[1.25rem] overflow-hidden mt-6 md:mt-10">
+          <img src="images/그레이_전신02_최종.png" alt="라이티 룩북 - 그레이 크로스" class="w-full h-[240px] md:h-[380px] object-cover hover:scale-[1.03] spring-hover" loading="lazy" decoding="async">
+        </div>
+        <div class="rounded-[1.25rem] overflow-hidden">
+          <img src="images/네이비_전신01_최종6.png" alt="라이티 룩북 - 네이비 전신" class="w-full h-[240px] md:h-[380px] object-cover hover:scale-[1.03] spring-hover" loading="lazy" decoding="async">
+        </div>
+        <div class="rounded-[1.25rem] overflow-hidden mt-6 md:mt-10">
+          <img src="images/상반신04_최종.png" alt="라이티 룩북 - 네이비 뒷모습" class="w-full h-[240px] md:h-[380px] object-cover hover:scale-[1.03] spring-hover" loading="lazy" decoding="async">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================== -->
+  <!-- TESTIMONIALS — Masonry -->
+  <!-- ============================================== -->
+  <section id="reviews" class="py-24 md:py-32 lg:py-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="reveal max-w-2xl mb-16 md:mb-20">
+        <span class="inline-block rounded-full px-3.5 py-1.5 text-[11px] uppercase tracking-[0.15em] font-semibold bg-cobalt/8 text-cobalt mb-6">
+          Reviews
+        </span>
+        <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight leading-snug font-display">
+          한 번 입으면<br>
+          <span class="text-gradient-cobalt">다시 돌아오는 이유</span>
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <!-- Review 1 — Tall -->
+        <div class="reveal stagger-1 md:row-span-2">
+          <div class="card-outer h-full">
+            <div class="card-inner p-7 h-full flex flex-col">
+              <div class="flex items-center gap-1 mb-5">
+                <iconify-icon icon="solar:star-bold" width="15" class="text-cobalt"></iconify-icon>
+                <iconify-icon icon="solar:star-bold" width="15" class="text-cobalt"></iconify-icon>
+                <iconify-icon icon="solar:star-bold" width="15" class="text-cobalt"></iconify-icon>
+                <iconify-icon icon="solar:star-bold" width="15" class="text-cobalt"></iconify-icon>
+                <iconify-icon icon="solar:star-bold" width="15" class="text-cobalt"></iconify-icon>
+              </div>
+              <blockquote class="text-ink/65 leading-loose text-sm flex-grow mb-6">
+                "170cm 77kg인데 오버핏 티셔츠 중에서 라이티가 유일하게 몸에 달라붙지 않아요. 어깨 라인이 자연스럽게 떨어지면서 팔뚝도 커버되고, 배 라인도 신경 안 쓰여요. 코발트 블루 3장, 블랙 2장 샀는데 이번에 화이트도 추가할 예정. 화이트도 진짜 안 비쳐서 놀랐어요."
+              </blockquote>
+              <div class="flex items-center gap-3">
+                <img src="https://i.pravatar.cc/150?u=lytetee-r1" alt="정수빈" class="w-10 h-10 rounded-full" loading="lazy" decoding="async">
+                <div>
+                  <p class="font-semibold text-sm">정수빈</p>
+                  <p class="text-xs text-ash">그래픽 디자이너, 29세</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 2 -->
+        <div class="reveal stagger-2">
+          <div class="card-outer">
+            <div class="card-inner p-7">
+              <div class="flex items-center gap-1 mb-5">
+                <iconify-icon icon="solar:star-bold" width="15" class="text-cobalt"></iconify-icon>
+                <iconify-icon icon="solar:star-bold" width="15" class="text-cobalt"></iconify-icon>
+                <iconify-icon icon="solar:star-bold" width="15" class="text-cobalt"></iconify-icon>
+                <iconify-icon icon="solar:star-bold" width="15" class="text-cobalt"></iconify-icon>
+                <iconify-icon icon="solar:star-bold" width="15" class="text-cobalt"></iconify-icon>
+              </div>
+              <blockquote class="text-ink/65 leading-loose text-sm mb-6">
+                "노브라로 출근하고 싶었는데 비침이 걱정이었어요. 라이티 입고 나서 고민 끝. 편하면서도 깔끔해 보여서 오피스룩으로도 완벽해요."
+              </blockquote>
+              <div class="flex items-center gap-3">
+                <img src="https://i.pravatar.cc/150?u=lytetee-r2" alt="박하은" class="w-10 h-10 rounded-full" loading="lazy" decoding="async">
+                <div>
+                  <p class="font-semibold text-sm">박하은</p>
+                  <p class="text-xs text-ash">마케팅 매니저, 31세</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 3 -->
+        <div class="reveal stagger-3">
+          <div class="card-outer">
+            <div class="card-inner p-7">
+              <div class="flex items-center gap-1 mb-5">
+                <iconify-icon icon="solar:star-bold" width="15" class="text-cobalt"></iconify-icon>
+                <iconify-icon icon="solar:star-bold" width="15" class="text-cobalt"></iconify-icon>
+                <iconify-icon icon="solar:star-bold" width="15" class="text-cobalt"></iconify-icon>
+                <iconify-icon icon="solar:star-bold" width="15" class="text-cobalt"></iconify-icon>
+                <iconify-icon icon="solar:star-bold" width="15" class="text-cobalt"></iconify-icon>
+              </div>
+              <blockquote class="text-ink/65 leading-loose text-sm mb-6">
+                "필라테스 갈 때도 입고, 카페 갈 때도 입고. 하나로 다 돼서 짐이 줄었어요. 활동적인데 힙한 느낌이 좋아요."
+              </blockquote>
+              <div class="flex items-center gap-3">
+                <img src="https://i.pravatar.cc/150?u=lytetee-r3" alt="김나연" class="w-10 h-10 rounded-full" loading="lazy" decoding="async">
+                <div>
+                  <p class="font-semibold text-sm">김나연</p>
+                  <p class="text-xs text-ash">프리랜서 포토그래퍼, 27세</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 4 -->
+        <div class="reveal stagger-4">
+          <div class="card-outer">
+            <div class="card-inner p-7">
+              <div class="flex items-center gap-1 mb-5">
+                <iconify-icon icon="solar:star-bold" width="15" class="text-cobalt"></iconify-icon>
+                <iconify-icon icon="solar:star-bold" width="15" class="text-cobalt"></iconify-icon>
+                <iconify-icon icon="solar:star-bold" width="15" class="text-cobalt"></iconify-icon>
+                <iconify-icon icon="solar:star-bold" width="15" class="text-cobalt"></iconify-icon>
+                <iconify-icon icon="solar:star-bold" width="15" class="text-cobalt"></iconify-icon>
+              </div>
+              <blockquote class="text-ink/65 leading-loose text-sm mb-6">
+                "세탁기에 막 돌려도 넥라인이 안 늘어나는 게 진짜 신기해요. 이 가격에 이 퀄리티는 처음이에요. 친구들 전부 포교했습니다."
+              </blockquote>
+              <div class="flex items-center gap-3">
+                <img src="https://i.pravatar.cc/150?u=lytetee-r4" alt="이유진" class="w-10 h-10 rounded-full" loading="lazy" decoding="async">
+                <div>
+                  <p class="font-semibold text-sm">이유진</p>
+                  <p class="text-xs text-ash">대학생, 23세</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 5 -->
+        <div class="reveal stagger-5">
+          <div class="card-outer">
+            <div class="card-inner p-7">
+              <div class="flex items-center gap-1 mb-5">
+                <iconify-icon icon="solar:star-bold" width="15" class="text-cobalt"></iconify-icon>
+                <iconify-icon icon="solar:star-bold" width="15" class="text-cobalt"></iconify-icon>
+                <iconify-icon icon="solar:star-bold" width="15" class="text-cobalt"></iconify-icon>
+                <iconify-icon icon="solar:star-bold" width="15" class="text-cobalt"></iconify-icon>
+                <iconify-icon icon="solar:star-bold" width="15" class="text-cobalt"></iconify-icon>
+              </div>
+              <blockquote class="text-ink/65 leading-loose text-sm mb-6">
+                "110 사이즈인데 예쁜 오버핏 티 찾기가 하늘의 별 따기였어요. 라이티는 진짜 모든 사이즈에서 예쁘게 나오더라고요. 감동이에요."
+              </blockquote>
+              <div class="flex items-center gap-3">
+                <img src="https://i.pravatar.cc/150?u=lytetee-r5" alt="최서영" class="w-10 h-10 rounded-full" loading="lazy" decoding="async">
+                <div>
+                  <p class="font-semibold text-sm">최서영</p>
+                  <p class="text-xs text-ash">콘텐츠 크리에이터, 26세</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================== -->
+  <!-- CTA — Full Bleed -->
+  <!-- ============================================== -->
+  <section id="shop" class="py-24 md:py-32 lg:py-40 relative overflow-hidden bg-sky-wash">
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full bg-cobalt/[0.04] blur-3xl"></div>
+    <div class="absolute top-0 right-0 w-[400px] h-[400px] rounded-full bg-sky-pastel/10 blur-3xl"></div>
+
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+      <div class="reveal">
+        <span class="inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[11px] uppercase tracking-[0.15em] font-semibold bg-cobalt/8 text-cobalt mb-8">
+          Start Here
+        </span>
+
+        <h2 class="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.15] font-display mb-6">
+          내일부터<br>
+          <span class="text-gradient-cobalt">티셔츠 하나로</span> 시작하세요
+        </h2>
+
+        <p class="text-base md:text-lg text-ash leading-loose max-w-[48ch] mx-auto mb-10">
+          첫 구매 10% 할인, 전 상품 무료 배송. 14일 이내 무조건 반품 가능. 부담 없이 라이티를 경험해보세요.
+        </p>
+
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
+          <a href="#" class="group inline-flex items-center gap-3 rounded-full bg-ink text-white px-10 py-5 text-lg font-semibold spring-hover hover:bg-cobalt hover:scale-[1.02] active:scale-[0.98] shadow-[0_20px_60px_-15px_rgba(10,10,10,0.2)]">
+            10% 할인받고 시작하기
+            <span class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center spring-hover group-hover:translate-x-1">
+              <iconify-icon icon="solar:arrow-right-linear" width="16"></iconify-icon>
+            </span>
+          </a>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-center gap-5 text-xs text-ash">
+          <span class="flex items-center gap-1.5">
+            <iconify-icon icon="solar:verified-check-linear" width="15" class="text-cobalt"></iconify-icon>
+            14일 무료 반품
+          </span>
+          <span class="flex items-center gap-1.5">
+            <iconify-icon icon="solar:delivery-linear" width="15" class="text-cobalt"></iconify-icon>
+            전 상품 무료 배송
+          </span>
+          <span class="flex items-center gap-1.5">
+            <iconify-icon icon="solar:star-bold" width="15" class="text-cobalt"></iconify-icon>
+            4.91 평균 별점
+          </span>
+          <span class="flex items-center gap-1.5">
+            <iconify-icon icon="solar:lock-linear" width="15" class="text-cobalt"></iconify-icon>
+            안전 결제
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================== -->
+  <!-- NEWSLETTER -->
+  <!-- ============================================== -->
+  <section class="py-14 md:py-16 bg-ink text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="reveal flex flex-col md:flex-row items-center justify-between gap-6">
+        <div>
+          <h3 class="text-lg md:text-xl font-bold font-display mb-1">Lytetee Newsletter</h3>
+          <p class="text-white/40 text-sm">신상 소식, 스타일링 팁, 구독자 전용 할인까지.</p>
+        </div>
+        <div class="flex w-full md:w-auto gap-3">
+          <input type="email" placeholder="이메일 주소" class="flex-1 md:w-64 rounded-full bg-white/8 border border-white/8 px-5 py-3.5 text-sm text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-cobalt/50 spring-hover">
+          <button class="rounded-full bg-cobalt text-white px-6 py-3.5 text-sm font-semibold spring-hover hover:bg-cobalt-bright hover:scale-[1.02] active:scale-[0.98] shrink-0">
+            구독
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================== -->
+  <!-- FOOTER -->
+  <!-- ============================================== -->
+  <footer class="py-16 md:py-20 bg-white border-t border-ink/5">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+        <div class="md:col-span-2">
+          <span class="text-xl font-display font-bold tracking-tight text-ink mb-4 block">Lytetee</span>
+          <p class="text-sm text-ash leading-loose max-w-[38ch] mb-6">
+            모든 체형의 여성이 티셔츠 한 장으로 자신감을 입을 수 있도록. 라이티는 베이직의 새로운 기준을 만듭니다.
+          </p>
+          <div class="flex items-center gap-3">
+            <a href="#" class="w-10 h-10 rounded-full bg-ink/5 flex items-center justify-center spring-hover hover:bg-cobalt hover:text-white" aria-label="Instagram">
+              <iconify-icon icon="solar:instagram-linear" width="18" class="text-current"></iconify-icon>
+            </a>
+            <a href="#" class="w-10 h-10 rounded-full bg-ink/5 flex items-center justify-center spring-hover hover:bg-cobalt hover:text-white" aria-label="TikTok">
+              <iconify-icon icon="solar:music-note-linear" width="18" class="text-current"></iconify-icon>
+            </a>
+            <a href="#" class="w-10 h-10 rounded-full bg-ink/5 flex items-center justify-center spring-hover hover:bg-cobalt hover:text-white" aria-label="카카오톡">
+              <iconify-icon icon="solar:chat-round-linear" width="18" class="text-current"></iconify-icon>
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="font-semibold text-sm mb-4 text-ink">Shop</h4>
+          <ul class="space-y-3 text-sm text-ash">
+            <li><a href="#" class="spring-hover hover:text-cobalt">전체 상품</a></li>
+            <li><a href="#" class="spring-hover hover:text-cobalt">베스트셀러</a></li>
+            <li><a href="#" class="spring-hover hover:text-cobalt">신상품</a></li>
+            <li><a href="#" class="spring-hover hover:text-cobalt">사이즈 가이드</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="font-semibold text-sm mb-4 text-ink">Support</h4>
+          <ul class="space-y-3 text-sm text-ash">
+            <li><a href="#" class="spring-hover hover:text-cobalt">자주 묻는 질문</a></li>
+            <li><a href="#" class="spring-hover hover:text-cobalt">배송 및 반품</a></li>
+            <li><a href="#" class="spring-hover hover:text-cobalt">카카오톡 상담</a></li>
+            <li><a href="#" class="spring-hover hover:text-cobalt">개인정보처리방침</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="pt-8 border-t border-ink/5 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-ash/50">
+        <p>2026 Lytetee. All rights reserved.</p>
+        <p>사업자등록번호 123-45-67890 | 대표 OOO | 서울특별시 성동구 성수이로 51</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================== -->
+  <!-- SCRIPTS -->
+  <!-- ============================================== -->
+  <script>
+    // Scroll reveal
+    const revealElements = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const siblings = entry.target.parentElement.querySelectorAll('.reveal');
+          let delay = 0;
+          siblings.forEach((sibling) => {
+            if (sibling === entry.target) {
+              entry.target.style.transitionDelay = delay + 'ms';
+            }
+            delay += 80;
+          });
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    revealElements.forEach(el => revealObserver.observe(el));
+
+    // Mobile menu
+    const menuBtn = document.getElementById('menuBtn');
+    const closeMenuBtn = document.getElementById('closeMenu');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileLinks = document.querySelectorAll('.mobile-link');
+
+    function openMenu() {
+      mobileMenu.classList.remove('hidden');
+      mobileMenu.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+      mobileLinks.forEach((link, i) => {
+        setTimeout(() => {
+          link.style.transition = 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
+          link.style.opacity = '1';
+          link.style.transform = 'translateY(0)';
+        }, 100 + (i * 80));
+      });
+    }
+
+    function closeMenu() {
+      mobileLinks.forEach((link) => {
+        link.style.opacity = '0';
+        link.style.transform = 'translateY(2rem)';
+      });
+      setTimeout(() => {
+        mobileMenu.classList.add('hidden');
+        mobileMenu.classList.remove('flex');
+        document.body.style.overflow = '';
+      }, 300);
+    }
+
+    menuBtn.addEventListener('click', openMenu);
+    closeMenuBtn.addEventListener('click', closeMenu);
+    mobileLinks.forEach(link => link.addEventListener('click', closeMenu));
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
